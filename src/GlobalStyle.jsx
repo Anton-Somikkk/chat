@@ -1,12 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
-import App from "./App";
-
 const GlobalStyle = createGlobalStyle`
-
 * {
   margin: 0;
   padding: 0; 
@@ -23,13 +16,9 @@ body {
     width: 100%;
     height: 100%;
     font-family: 'Stratos-Thin', sans-serif;
-    color: #FFFFFF;
+    color: #000;
     overflow: hidden;
 
-}
-
-p {
-  color: black;
 }
 
 a,
@@ -48,7 +37,7 @@ ul li {
 }
 
 main {
-  flex: 1 1 auto;
+  
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -63,14 +52,4 @@ main {
   font-style: normal;
 }
 `;
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(
-    <BrowserRouter>
-        <Provider store={store}>
-            <GlobalStyle />
-            <App />
-        </Provider>
-    </BrowserRouter>
-);
+export default GlobalStyle;
