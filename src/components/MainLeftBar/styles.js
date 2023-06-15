@@ -1,12 +1,7 @@
 import styled from "styled-components";
 
-export const MainNav = styled.nav`
-  width: 244px;
-  background-color: #eae6df;
-  padding: 20px 0 20px 36px;
-`;
-
 export const Input = styled.input`
+  min-width: 100px;
   width: 80%;
   height: 40px;
   padding-left: 10px;
@@ -25,6 +20,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
+  min-width: 60px;
   width: 80px;
   height: 40px;
   font-weight: 400;
@@ -43,7 +39,7 @@ export const Button = styled.button`
   }
 `;
 export const Title = styled.div`
-  width: 90%;
+  width: ${(props) => props.titleNumberWidth};
   height: 43px;
   padding: 5px 0 5px 0;
   background-color: transparent;
@@ -52,7 +48,7 @@ export const Title = styled.div`
 `;
 
 export const Form = styled.div`
-  width: 95%;
+  width: ${(props) => props.titleNumberWidth};
   display: flex;
   gap: 10px;
 `;

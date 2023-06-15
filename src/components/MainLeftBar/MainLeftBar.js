@@ -4,7 +4,7 @@ import { setTelNumber } from "../../Slices/telNumberSlice";
 
 import * as S from "./styles";
 
-export default function MainLeftBar() {
+export default function MainLeftBar({titleNumber, titleNumberWidth}) {
   const dispatch = useDispatch();
   const number = useSelector((state) => state.telNumber.number);
 
@@ -21,13 +21,13 @@ export default function MainLeftBar() {
   };
 
   return (
-    <S.MainNav>
+    <>
       <S.Title>
         <S.TitleNumber>{number}</S.TitleNumber>
       </S.Title>
 
-      <S.Title>Введите номер телефона:</S.Title>
-      <S.Form>
+      <S.Title title-number-width={titleNumberWidth}>{titleNumber}</S.Title>
+      <S.Form title-number-width={titleNumberWidth}>
         <S.Input
           type="tel"
           placeholder="Телефон"
@@ -40,6 +40,6 @@ export default function MainLeftBar() {
           Ok
         </S.Button>
       </S.Form>
-    </S.MainNav>
+      </>
   );
 }

@@ -13,11 +13,10 @@ export default function MainPage() {
   const dispatch = useDispatch();
   const number = useSelector((state) => state.telNumber.number);
   const messageCollection = useSelector((state) => state.message.message);
-
   const chatId = `${number}@c.us`;
   const idInstance = localStorage.getItem("idInstance");
   const apiTokenInstance = localStorage.getItem("apiTokenInstance");
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
 
   const [width, setWidth] = useState(window.innerWidth);
   const breakpoint = 780;
@@ -30,7 +29,7 @@ export default function MainPage() {
     };
   }, []);
 
-  const { data, isSuccess: success } = useGetMessageQuery(
+  const { data } = useGetMessageQuery(
     {
       idInstance: idInstance,
       apiTokenInstance: apiTokenInstance,
@@ -40,46 +39,60 @@ export default function MainPage() {
     }
   );
 
-  if (success) {
-    console.log(data);
-  }
+  const [delMessageTrigger] = useDelMessageMutation();
 
-  const { isSuccess } = useDelMessageMutation({
-    idInstance: idInstance,
-    apiTokenInstance: apiTokenInstance,
-    receiptId: data?.receiptId,
-  });
+  useEffect(() => {
+    if (data?.receiptId) {
+      if (data.body?.senderData.chatId === chatId) {
+        dispatch(
+          setMessages({
+            message: data.body?.messageData.textMessageData.textMessage,
+            type: "recieve",
+          })
+        );
+      }
+      delMessageTrigger({
+        idInstance: idInstance,
+        apiTokenInstance: apiTokenInstance,
+        receiptId: data.receiptId,
+      });
+    }
+  }, [data?.receiptId]);
 
   const onChangeHandler = (e) => {
     setMessage(e.target.value);
   };
 
   const handleLogin = () => {
-    trigger({
+    sendMessageTrigger({
       idInstance: idInstance,
       apiTokenInstance: apiTokenInstance,
       chatId: chatId,
       message: message,
     });
     setMessage("");
-    dispatch(setMessages(message));
+    dispatch(setMessages({ message: message, type: "send" }));
   };
-  const [trigger, { isLoading }] = useSendMessageMutation();
+  const [sendMessageTrigger] = useSendMessageMutation();
 
   if (width < breakpoint) {
     return (
       <S.Wrapper>
         <S.Container>
-          <S.Main>
+          <S.MainMobile>
+            <S.MainTopNav>
+              <MainLeftBar titleNumber={""} titleNumberWidth={"30%"} />
+            </S.MainTopNav>
             <S.CenterBlock>
-              <S.MessageBlock>
+              <S.MessagesBlock>
                 {messageCollection?.map((elem) => (
                   <Message
+                    identify={elem.type}
                     key={Math.floor(Math.random() * 999)}
-                    message={elem}
+                    message={elem.message}
                   />
                 ))}
-              </S.MessageBlock>
+              </S.MessagesBlock>
               <S.Form>
                 <S.SendText
                   type="text"
@@ -92,7 +105,7 @@ export default function MainPage() {
                 <S.Button onClick={handleLogin}>Отправить</S.Button>
               </S.Form>
             </S.CenterBlock>
-          </S.Main>
+          </S.MainMobile>
         </S.Container>
       </S.Wrapper>
     );
@@ -101,13 +114,22 @@ export default function MainPage() {
     <S.Wrapper>
       <S.Container>
         <S.Main>
-          <MainLeftBar />
+          <S.MainNav>
+            <MainLeftBar
+              titleNumber={"Введите номер телефона:"}
+              titleNumberWidth={"90%"}
+            />
+          </S.MainNav>
           <S.CenterBlock>
-            <S.MessageBlock>
+            <S.MessagesBlock>
               {messageCollection?.map((elem) => (
-                <Message key={Math.floor(Math.random() * 999)} message={elem} />
+                <Message
+                  identify={elem.type}
+                  key={Math.floor(Math.random() * 999)}
+                  message={elem.message}
+                />
               ))}
-            </S.MessageBlock>
+            </S.MessagesBlock>
             <S.Form>
               <S.SendText
                 type="text"

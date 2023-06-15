@@ -34,7 +34,12 @@ export const Main = styled.main`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
-
+export const MainMobile = styled.main`
+  min-height: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+`;
 export const Wrapper = styled.div`
   width: 100%;
   min-height: 100%;
@@ -72,12 +77,25 @@ export const Form = styled.div`
   gap: 10px;
   margin-top: 50px;
 `;
-export const MessageBlock = styled.div`
+export const MessagesBlock = styled.div`
   display: flex;
   height: 65vh;
+  width: 95%;
   gap: 15px;
   flex-direction: column;
-  align-items: flex-end;
+  
   justify-content: flex-end;
   overflow-y: auto;
+`;
+export const MainNav = styled.nav`
+  width: 244px;
+  background-color: #eae6df;
+  padding: 20px 20px 20px 20px;
+`;
+export const MainTopNav = styled.nav`
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  background-color: #eae6df;
+  padding: 20px 20px 20px 20px;
 `;

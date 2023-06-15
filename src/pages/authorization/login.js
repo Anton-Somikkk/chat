@@ -1,19 +1,14 @@
-import { useState } from "react";
-import { useEffect } from "react";
-
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import AppRoutes from "../../routs/routs";
-
 import { useGetTokenQuery } from "../../services/api";
-import * as S from "./style.jsx";
+import * as S from "./style.js";
 
-function Login() {
-  const dispatch = useDispatch();
+export default function Login() {
   const navigate = useNavigate();
   const [idInstance, setIdInstance] = useState("");
+  const [errors, setErrors] = useState("");
   const [apiTokenInstance, setApiTokenInstance] = useState("");
-  const { data, isSuccess, isLoading } = useGetTokenQuery({
+  const { data, error, isSuccess } = useGetTokenQuery({
     idInstance: idInstance,
     apiTokenInstance: apiTokenInstance,
   });
@@ -23,12 +18,13 @@ function Login() {
       localStorage.setItem("widToken", data.wid);
       localStorage.setItem("idInstance", idInstance);
       localStorage.setItem("apiTokenInstance", apiTokenInstance);
-
-      console.log("1", !!localStorage.getItem("widToken"));
+      navigate("/", { replace: false });
     }
-    navigate("/", { replace: false });
+
+    if (error) {
+      setErrors("Не удалось подключиться...");
+    }
   };
-  
 
   return (
     <S.Container>
@@ -39,6 +35,7 @@ function Login() {
           value={idInstance}
           onChange={(e) => {
             setIdInstance(e.target.value);
+            setErrors("");
           }}
         />
         <S.Inputs
@@ -47,14 +44,14 @@ function Login() {
           value={apiTokenInstance}
           onChange={(e) => {
             setApiTokenInstance(e.target.value);
+            setErrors("");
           }}
         />
         <S.ErrorBox>
-          <S.ErrorMessage></S.ErrorMessage>
+          <S.ErrorMessage>{errors}</S.ErrorMessage>
         </S.ErrorBox>
         <S.OstiumButton onClick={handleLogin}>Войти</S.OstiumButton>
       </S.MeinBox>
     </S.Container>
   );
 }
-export default Login;
