@@ -42,7 +42,7 @@ export default function MainPage() {
   const [delMessageTrigger] = useDelMessageMutation();
 
   useEffect(() => {
-    if (data?.receiptId) {
+    if (data?.receiptId && chatId) {
       if (data.body?.senderData.chatId === chatId) {
         dispatch(
           setMessages({

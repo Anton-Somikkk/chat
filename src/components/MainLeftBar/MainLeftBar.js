@@ -4,7 +4,7 @@ import { setTelNumber } from "../../Slices/telNumberSlice";
 
 import * as S from "./styles";
 
-export default function MainLeftBar({titleNumber, titleNumberWidth}) {
+export default function MainLeftBar({ titleNumber, titleNumberWidth }) {
   const dispatch = useDispatch();
   const number = useSelector((state) => state.telNumber.number);
 
@@ -12,8 +12,13 @@ export default function MainLeftBar({titleNumber, titleNumberWidth}) {
 
   const onSubmitForm = (evt) => {
     evt.preventDefault();
-    if (!phoneNumber) {
-      alert("Введите номер");
+
+    if (
+      !phoneNumber ||
+      isNaN(phoneNumber) ||
+      Math.abs(phoneNumber).toString().length !== 11
+    ) {
+      alert("Введите номер телефона в формате 11 цифр");
     } else {
       dispatch(setTelNumber(phoneNumber));
       setPhoneNumber("");
@@ -40,6 +45,6 @@ export default function MainLeftBar({titleNumber, titleNumberWidth}) {
           Ok
         </S.Button>
       </S.Form>
-      </>
+    </>
   );
 }
