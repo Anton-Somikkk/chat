@@ -57,7 +57,7 @@ export default function MainPage() {
         receiptId: data.receiptId,
       });
     }
-  }, [data?.receiptId]);
+  }, [data?.receiptId, chatId]);
 
   const onChangeHandler = (e) => {
     setMessage(e.target.value);

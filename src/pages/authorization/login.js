@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetTokenQuery } from "../../services/api";
 import * as S from "./style.js";
