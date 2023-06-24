@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetTokenQuery } from "../../services/api";
-import * as S from "./style.js";
+import * as S from "./style";
 
 export default function Login() {
   const navigate = useNavigate();
   const [idInstance, setIdInstance] = useState("");
   const [errors, setErrors] = useState("");
   const [apiTokenInstance, setApiTokenInstance] = useState("");
+
   const { data, error, isSuccess } = useGetTokenQuery({
     idInstance: idInstance,
     apiTokenInstance: apiTokenInstance,
