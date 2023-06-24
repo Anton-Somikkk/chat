@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetTokenQuery } from "../../services/api";
+import { useGetTokenMutation } from "../../services/api";
 import * as S from "./style";
 
 export default function Login() {
@@ -9,12 +9,15 @@ export default function Login() {
   const [errors, setErrors] = useState("");
   const [apiTokenInstance, setApiTokenInstance] = useState("");
 
-  const { data, error, isSuccess } = useGetTokenQuery({
-    idInstance: idInstance,
-    apiTokenInstance: apiTokenInstance,
-  });
+  const [trigger, { data, error, isSuccess }] = useGetTokenMutation();
 
   const handleLogin = () => {
+    trigger({
+      idInstance: idInstance,
+      apiTokenInstance: apiTokenInstance,
+    });
+  };
+  useEffect(() => {
     if (isSuccess) {
       localStorage.setItem("widToken", data.wid);
       localStorage.setItem("idInstance", idInstance);
@@ -25,8 +28,7 @@ export default function Login() {
     if (error) {
       setErrors("Не удалось подключиться...");
     }
-  };
-
+  }, [isSuccess, error]);
   return (
     <S.Container>
       <S.MeinBox>

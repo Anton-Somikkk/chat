@@ -10,7 +10,7 @@ export const api = createApi({
   }),
 
   endpoints: (builder) => ({
-    getToken: builder.query({
+    getToken: builder.mutation({
       query: (args) => {
         const { idInstance, apiTokenInstance } = args;
 
@@ -57,7 +57,7 @@ export const api = createApi({
 });
 
 export const {
-  useGetTokenQuery,
+  useGetTokenMutation,
   useSendMessageMutation,
   useGetMessageQuery,
   useDelMessageMutation,
