@@ -4,7 +4,6 @@ import { setMessages } from "../../Slices/messageSlice";
 import { useSendMessageMutation } from "../../services/api";
 import { useGetMessageQuery } from "../../services/api";
 import { useDelMessageMutation } from "../../services/api";
-
 import Message from "../../components/Message/Message";
 import MainLeftBar from "../../components/MainLeftBar/MainLeftBar";
 import * as S from "./styles";
